@@ -51,11 +51,11 @@ trailsRouter.get('/:user', (req, res) => {
               path: 'images'
             }
           })
-          .then(trail => {
+          .then(t => {
             res.json({
               success: true,
               data: {
-                trail
+                tail: t
               }
             });
           });
