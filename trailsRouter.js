@@ -26,7 +26,7 @@ router.get('/:uname', (req, res) => {
             const imageQueries = [];
 
             queries.forEach(query => {
-              imageQueries.push(Image.find({queryId: query.id}));
+              imageQueries.push(Image.find({queryId: query._id}));
             });
 
             Promise.all(imageQueries)
