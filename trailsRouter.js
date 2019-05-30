@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
       res.json({
         success: true,
         data: {
-          users
+          trails: users.map(u => u.uname)
         }
       })
     });
