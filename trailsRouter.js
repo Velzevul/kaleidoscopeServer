@@ -49,13 +49,11 @@ router.get('/:uname', (req, res) => {
 
         user.save()
           .then(user => {
-            user.queries = [];
-
             res.json({
               success: true,
               data: {
                 user,
-                queries
+                queries: []
               }
             });
           });
