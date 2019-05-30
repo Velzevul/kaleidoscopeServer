@@ -49,7 +49,8 @@ const trailSchema = new Schema({
 trailSchema.virtual('queries', {
   ref: 'Query',
   localField: '_id',
-  foreignField: 'trailId'
+  foreignField: 'trailId',
+  options: {sort: {timestamp: -1}}
 });
 
 module.exports = {
