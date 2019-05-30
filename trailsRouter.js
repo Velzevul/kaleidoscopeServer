@@ -63,6 +63,15 @@ trailsRouter.get('/:user', (req, res) => {
     });
 });
 
+trailsRouter.get('/:user/queries', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      msg: 'returning queries here...'
+    }
+  })
+});
+
 trailsRouter.post('/:user/queries', (req, res) => {
   const user = req.params.user;
 
