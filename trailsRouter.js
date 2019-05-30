@@ -92,7 +92,7 @@ trailsRouter.post('/:user/queries', (req, res) => {
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
   const queryId = req.params.queryId;
 
-  Query.findOne(q => q._id.eqals(queryId))
+  Query.findById(queryId)
     .then(query => {
       if (query) {
         const image = new Image(Object.assign({}, req.body.image, {
