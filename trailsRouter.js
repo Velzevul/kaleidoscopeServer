@@ -35,6 +35,12 @@ trailsRouter.get('/:user', (req, res) => {
   const user = req.params.user;
 
   Trail.findOne({user})
+    .populate({
+      path: 'queries',
+      populate: {
+        path: 'images'
+      }
+    })
     .then(trail => {
       if (trail) {
         res.json({
@@ -45,12 +51,6 @@ trailsRouter.get('/:user', (req, res) => {
         trail = new Trail({user});
 
         trail.save()
-          .populate({
-            path: 'queries',
-            popuate: {
-              path: 'images'
-            }
-          })
           .then(t => {
             res.json({
               success: true,
