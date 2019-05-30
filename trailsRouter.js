@@ -1,60 +1,48 @@
 const express = require('express');
-const {Query, Image, User} = require('./trailsModels');
+const {Query, Image, Trail} = require('./trailsModels');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  User.find()
-    .then(users => {
+  Trail.find()
+    .populate({
+      path: 'queries',
+      populate: {
+        path: 'images'
+      }
+    })
+    .then(trails => {
       res.json({
         success: true,
-        data: {
-          trails: users.map(u => u.uname)
-        }
+        data: trails
       })
     });
 });
 
-router.get('/:uname', (req, res) => {
-  const uname = req.params.uname;
+router.get('/:user', (req, res) => {
+  const user = req.params.user;
 
-  User.findOne({uname})
-    .then(user => {
-      if (user) {
-        Query.find({uname})
-          .then(queries => {
-            const imageQueries = [];
-
-            queries.forEach(query => {
-              imageQueries.push(Image.find({queryId: query._id}));
-            });
-
-            Promise.all(imageQueries)
-              .then(queryImages => {
-                for (let i = 0; i < queries.length; ++i) {
-                  queries[i].images = queryImages[i];
-                }
-
-                res.json({
-                  success: true,
-                  data: {
-                    user,
-                    queries
-                  }
-                });
-              });
-          });
+  Trail.findOne({user})
+    .populate({
+      path: 'queries',
+      popuate: {
+        path: 'images'
+      }
+    })
+    .then(trail => {
+      if (trail) {
+        res.json({
+          success: true,
+          data: trail
+        });
       } else {
-        user = new User({uname});
+        trail = new Trail({user});
 
-        user.save()
-          .then(user => {
+        trail.save()
+          .then(trail => {
             res.json({
               success: true,
-              data: {
-                user,
-                queries: []
-              }
+              data: trail
             });
           });
       }

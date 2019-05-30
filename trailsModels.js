@@ -3,13 +3,13 @@ mongoose.Promise = require('bluebird');
 const Schema = mongoose.Schema;
 
 const imageSchema = new Schema({
-  uname: {
-    type: String,
-    index: true
+  trail: {
+    type: Schema.Types.ObjectId,
+    ref: 'Trail'
   },
-  queryId: {
-    type: String,
-    index: true
+  query: {
+    type: Schema.Types.ObjectId,
+    ref: 'Query'
   },
   thumbSrc: {
     type: String,
@@ -23,24 +23,32 @@ const imageSchema = new Schema({
 });
 
 const querySchema = new Schema({
-  uname: {
-    type: String,
-    index: true
+  trail: {
+    type: Schema.Types.ObjectId,
+    ref: 'Trail'
   },
+  images: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Image'
+  }],
   q: String,
   url: String,
   timestamp: Date
 });
 
-const userSchema = new Schema({
-  uname: {
+const trailSchema = new Schema({
+  user: {
     type: String,
     index: true
   },
+  queries: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Query'
+  }]
 });
 
 module.exports = {
   Image: mongoose.model('Image', imageSchema),
   Query: mongoose.model('Query', querySchema),
-  User: mongoose.model('User', userSchema)
+  Trail: mongoose.model('Trail', trailSchema)
 };
