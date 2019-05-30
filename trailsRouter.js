@@ -1,6 +1,16 @@
 const express = require('express');
 const {Query, Image, Trail} = require('./trailsModels');
 
+const notFound = (res, msg) => {
+  res.status(404)
+    .json({
+      success: false,
+      data: {
+        msg
+      }
+    });
+};
+
 const trailsRouter = express.Router();
 
 trailsRouter.get('/', (req, res) => {
@@ -14,7 +24,9 @@ trailsRouter.get('/', (req, res) => {
     .then(trails => {
       res.json({
         success: true,
-        data: trails
+        data: {
+          trails
+        }
       })
     });
 });
@@ -42,7 +54,9 @@ trailsRouter.get('/:user', (req, res) => {
           .then(trail => {
             res.json({
               success: true,
-              data: trail
+              data: {
+                trail
+              }
             });
           });
       }
@@ -50,7 +64,29 @@ trailsRouter.get('/:user', (req, res) => {
 });
 
 trailsRouter.post('/:user/queries', (req, res) => {
+  const user = req.params.user;
 
+  Trail.findOne({user})
+    then(trail => {
+      if (trail) {
+        const query = Query.create(Object.assign({}, req.body.query, {
+          trailId: trail._id,
+          timestamp: Date.now()
+        }));
+
+        query.save()
+          .then(query => {
+            res.json({
+              success: true,
+              data: {
+                query
+              }
+            });
+          });
+      } else {
+        notFound(res, `cannot find trail for ${user}`);
+      }
+    });
 });
 
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
