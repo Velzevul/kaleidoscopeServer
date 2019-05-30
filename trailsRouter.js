@@ -90,7 +90,30 @@ trailsRouter.post('/:user/queries', (req, res) => {
 });
 
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
+  const queryId = req.params.queryId;
 
+  query.findOne(q => q._id.eqals(queryId))
+    .then(query => {
+      if (query) {
+        const image = new Image(Object.assign({}, req.body.image, {
+          queryId: query._id,
+          trailId: query.trailId,
+          timestamp: Date.now()
+        }));
+
+        image.save()
+          .then(image => {
+            res.json({
+              success: true,
+              data: {
+                image
+              }
+            });
+          });
+      } else {
+        notFound(res, `cannot find query with id ${queryId}`);
+      }
+    })
 });
 
 module.exports = trailsRouter;
