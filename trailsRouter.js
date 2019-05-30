@@ -37,9 +37,10 @@ router.get('/:uname', (req, res) => {
 
                 res.json({
                   success: true,
-                  user: Object.assign({}, user, {
+                  data: {
+                    user,
                     queries
-                  })
+                  }
                 });
               });
           });
@@ -48,12 +49,13 @@ router.get('/:uname', (req, res) => {
 
         user.save()
           .then(user => {
+            user.queries = [];
+
             res.json({
               success: true,
               data: {
-                user: Object.assign({}, user, {
-                  queries: []
-                })
+                user,
+                queries
               }
             });
           });
