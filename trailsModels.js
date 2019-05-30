@@ -30,7 +30,7 @@ const querySchema = new Schema({
   q: String,
   url: String,
   timestamp: Date
-});
+}, { toJSON: { virtuals: true }});
 
 querySchema.virtual('images', {
   ref: 'Image',
@@ -44,7 +44,7 @@ const trailSchema = new Schema({
     type: String,
     index: true
   }
-});
+}, { toJSON: { virtuals: true } });
 
 trailSchema.virtual('queries', {
   ref: 'Query',
