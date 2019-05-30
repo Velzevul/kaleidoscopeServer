@@ -60,3 +60,5 @@ router.get('/:uname', (req, res) => {
       }
     });
 });
+
+module.exports = router;
