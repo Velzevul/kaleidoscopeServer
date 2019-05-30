@@ -1,9 +1,9 @@
 const express = require('express');
 const {Query, Image, Trail} = require('./trailsModels');
 
-const router = express.Router();
+const trailsRouter = express.Router();
 
-router.get('/', (req, res) => {
+trailsRouter.get('/', (req, res) => {
   Trail.find()
     .populate({
       path: 'queries',
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:user', (req, res) => {
+trailsRouter.get('/:user', (req, res) => {
   const user = req.params.user;
 
   Trail.findOne({user})
@@ -49,4 +49,12 @@ router.get('/:user', (req, res) => {
     });
 });
 
-module.exports = router;
+trailsRouter.post('/:user/queries', (req, res) => {
+
+});
+
+trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
+
+});
+
+module.exports = trailsRouter;
