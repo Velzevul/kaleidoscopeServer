@@ -1,10 +1,10 @@
 const express = require('express');
-const models = require('./trailsModels');
+const {Query, Image, User} = require('./trailsModels');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  models.User.find()
+  User.find()
     .then(users => {
       res.json({
         success: true,
@@ -18,15 +18,15 @@ router.get('/', (req, res) => {
 router.get('/:uname', (req, res) => {
   const uname = req.params.uname;
 
-  models.User.findOne({uname})
+  User.findOne({uname})
     .then(user => {
       if (user) {
-        models.Queries.find({uname})
+        Query.find({uname})
           .then(queries => {
             const imageQueries = [];
 
             queries.forEach(query => {
-              imageQueries.push(models.Images.find({queryId: query.id}));
+              imageQueries.push(Image.find({queryId: query.id}));
             });
 
             Promise.all(imageQueries)
@@ -44,7 +44,7 @@ router.get('/:uname', (req, res) => {
               });
           });
       } else {
-        user = new models.User({uname});
+        user = new User({uname});
 
         user.save()
           .then(user => {
