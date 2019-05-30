@@ -69,7 +69,7 @@ trailsRouter.post('/:user/queries', (req, res) => {
   Trail.findOne({user})
     .then(trail => {
       if (trail) {
-        const query = Query.create(Object.assign({}, req.body.query, {
+        const query = new Query(Object.assign({}, req.body.query, {
           trailId: trail._id,
           timestamp: Date.now()
         }));
