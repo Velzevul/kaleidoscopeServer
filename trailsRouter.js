@@ -1,8 +1,19 @@
 const express = require('express');
-const moment = require('moment');
-const models = require('./models.js');
+const models = require('./trailsModels');
 
 const router = express.Router();
+
+router.get('/', (req, res) => {
+  models.User.find()
+    .then(users => {
+      res.json({
+        success: true,
+        data: {
+          users
+        }
+      })
+    });
+});
 
 router.get('/:uname', (req, res) => {
   const uname = req.params.uname;

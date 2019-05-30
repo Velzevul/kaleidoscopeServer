@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
+const trailsRouter = require('./trailsRouter');
+
 var port = process.env.KALEIDOSCOPE_SERVER_PORT || 3001;
 mongoose.connect(`mongodb://${process.env.KALEIDOSCOPE_SERVER_DB_USER}:${process.env.KALEIDOSCOPE_SERVER_DB_PASS}@${process.env.KALEIDOSCOPE_SERVER_DB_HOST}/${process.env.KALEIDOSCOPE_SERVER_DB_NAME}`);
 
@@ -29,5 +31,7 @@ app.get(`${process.env.KALEIDOSCOPE_SERVER_API_PREFIX}/`, (req, res) => {
     }
   });
 });
+
+app.use(`${process.env.KALEIDOSCOPE_SERVER_API_PREFIX}/trails`, trailsRouter);
 
 app.listen(port);
