@@ -89,33 +89,6 @@ trailsRouter.post('/:user/queries', (req, res) => {
     });
 });
 
-trailsRouter.get('/:user/queries/search', (req, res) => {
-  const user = req.params.user;
-
-  Trail.findOne({user})
-    .populate({
-      path: 'queries'
-    })
-    .then(trail => {
-      if (trail) {
-        trail.queries.find({q: decodeURI(req.query.q)})
-          .populate({
-            path: 'images'
-          })
-          .then(queries => {
-            res.json({
-              success: true,
-              data: {
-                queries
-              }
-            });
-          });
-      } else {
-        notFound(res, `cannot find trail for ${user}`);
-      }
-    });
-});
-
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
   const queryId = req.params.queryId;
 
