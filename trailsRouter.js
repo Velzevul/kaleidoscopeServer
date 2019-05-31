@@ -89,6 +89,23 @@ trailsRouter.post('/:user/queries', (req, res) => {
     });
 });
 
+trailsRouter.get('/:user/queries/search', (res, req) => {
+  const queryId = req.params.queryId;
+
+  Query.find({q: req.query.q})
+    .populate({
+      path: images
+    })
+    .then(queries => {
+      res.json({
+        success: true,
+        data: {
+          queries
+        }
+      });
+    });
+});
+
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
   const queryId = req.params.queryId;
 
