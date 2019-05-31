@@ -92,7 +92,7 @@ trailsRouter.post('/:user/queries', (req, res) => {
 trailsRouter.get('/:user/queries/search', (req, res) => {
   Query.find({q: req.query.q})
     .populate({
-      path: images
+      path: 'images'
     })
     .then(queries => {
       res.json({
