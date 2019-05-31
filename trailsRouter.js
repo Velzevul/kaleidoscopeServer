@@ -90,17 +90,26 @@ trailsRouter.post('/:user/queries', (req, res) => {
 });
 
 trailsRouter.get('/:user/queries/search', (req, res) => {
-  Query.find({q: req.query.q})
-    .populate({
-      path: 'images'
-    })
-    .then(queries => {
-      res.json({
-        success: true,
-        data: {
-          queries
-        }
-      });
+  const user = req.params.user;
+
+  Trail.findOne({user})
+    .then(trail => {
+      if (trail) {
+        trail.queries.find({q: decodeURI(req.query.q)})
+          .populate({
+            path: 'images'
+          })
+          .then(queries => {
+            res.json({
+              success: true,
+              data: {
+                queries
+              }
+            });
+          });
+      } else {
+        notFound(res, `cannot find trail for ${user}`);
+      }
     });
 });
 
