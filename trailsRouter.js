@@ -93,6 +93,9 @@ trailsRouter.get('/:user/queries/search', (req, res) => {
   const user = req.params.user;
 
   Trail.findOne({user})
+    .populate({
+      path: 'queries'
+    })
     .then(trail => {
       if (trail) {
         trail.queries.find({q: decodeURI(req.query.q)})
