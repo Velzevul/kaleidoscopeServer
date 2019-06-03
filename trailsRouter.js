@@ -49,23 +49,23 @@ trailsRouter.get('/:user', (req, res) => {
         });
       } else {
         trail = new Trail({user});
-
-        trail.save()
+        
+        trail
+          .save()
           .then(t => {
             t.populate({
               path: 'queries',
               populate: {
                 path: 'images'
               }
-            })
-              .then(t => {
-                res.json({
-                  success: true,
-                  data: {
-                    tail: t
-                  }
-                });
+            }).then(t => {
+              res.json({
+                success: true,
+                data: {
+                  tail: t
+                }
               });
+            });
           });
       }
     });
