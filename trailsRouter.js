@@ -45,7 +45,9 @@ trailsRouter.get('/:user', (req, res) => {
       if (trail) {
         res.json({
           success: true,
-          data: trail
+          data: {
+            trail
+          }
         });
       } else {
         trail = new Trail({user});
