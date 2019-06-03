@@ -81,9 +81,12 @@ trailsRouter.post('/:user/queries', (req, res) => {
     .then(trail => {
       if (trail) {
         const query = new Query(Object.assign({}, req.body.query, {
-          trailId: trail._id,
-          timestamp: Date.now()
+          trailId: trail._id
         }));
+
+        if (!query.timestamp) {
+          query.timestamp = Date.now();
+        }
 
         query.save()
           .then(query => {
@@ -108,9 +111,12 @@ trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
       if (query) {
         const image = new Image(Object.assign({}, req.body.image, {
           queryId: query._id,
-          trailId: query.trailId,
-          timestamp: Date.now()
+          trailId: query.trailId
         }));
+
+        if (!image.timestamp) {
+          image.timestamp = Date.now();
+        }
 
         image.save()
           .then(image => {
