@@ -51,6 +51,12 @@ trailsRouter.get('/:user', (req, res) => {
         trail = new Trail({user});
 
         trail.save()
+          .populate({
+            path: 'queries',
+            populate: {
+              path: 'images'
+            }
+          })
           .then(t => {
             res.json({
               success: true,
