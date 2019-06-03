@@ -65,7 +65,7 @@ trailsRouter.get('/:user', (req, res) => {
               res.json({
                 success: true,
                 data: {
-                  tail: t
+                  trail: t
                 }
               });
             });
