@@ -32,7 +32,7 @@ trailsRouter.get('/', (req, res) => {
 });
 
 trailsRouter.get('/:user', (req, res) => {
-  const user = req.params.user;
+  const user = req.params.user.toLowerCase();
 
   Trail.findOne({user})
     .populate({
@@ -74,6 +74,7 @@ trailsRouter.get('/:user', (req, res) => {
     });
 });
 
+// TODO: refactor into queries router
 trailsRouter.post('/:user/queries', (req, res) => {
   const user = req.params.user;
 
@@ -103,6 +104,7 @@ trailsRouter.post('/:user/queries', (req, res) => {
     });
 });
 
+// TODO: refactor into images router
 trailsRouter.post('/:user/queries/:queryId/images', (req, res) => {
   const queryId = req.params.queryId;
 
